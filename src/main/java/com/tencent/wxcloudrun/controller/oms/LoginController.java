@@ -2,11 +2,8 @@ package com.tencent.wxcloudrun.controller.oms;
 
 import com.tencent.wxcloudrun.config.ApiResponse;
 import com.tencent.wxcloudrun.config.JwtUtil;
-import com.tencent.wxcloudrun.controller.CounterController;
 import com.tencent.wxcloudrun.dto.AuthenticationRequest;
-import com.tencent.wxcloudrun.service.CounterService;
 import com.tencent.wxcloudrun.service.CustomUserDetailsService;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,10 +12,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import com.alibaba.fastjson.JSONObject;
 
 @RestController
 public class LoginController {
@@ -44,10 +41,10 @@ public class LoginController {
         } catch (BadCredentialsException e) {
             throw new Exception("Incorrect username or password", e);
         }
-
+        logger.info("查询账号信息入参：",JSONObject.toJSONString(authenticationRequest));
         final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(authenticationRequest.getUsername());
-
+        logger.info("查询账号信息结果：",JSONObject.toJSONString(userDetails));
         final String jwt = jwtUtil.generateToken(userDetails);
 
         return ApiResponse.ok(jwt);
