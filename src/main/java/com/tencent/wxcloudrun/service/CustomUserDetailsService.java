@@ -1,6 +1,5 @@
-package com.tencent.wxcloudrun.service.impl;
+package com.tencent.wxcloudrun.service;
 
-import com.tencent.wxcloudrun.dao.CountersMapper;
 import com.tencent.wxcloudrun.dao.UserMapper;
 import com.tencent.wxcloudrun.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +11,11 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 
 @Service
-public class CustomUserDetailsServiceImpl implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
     final UserMapper userMapper;
 
-    public CustomUserDetailsServiceImpl(@Autowired UserMapper userMapper) {
+    public CustomUserDetailsService(@Autowired UserMapper userMapper) {
         this.userMapper = userMapper;
     }
 
