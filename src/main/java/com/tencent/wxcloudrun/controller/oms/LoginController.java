@@ -25,7 +25,7 @@ public class LoginController {
     @Autowired
     private CustomUserDetailsService userDetailsService;
     @ApiOperation("用户登陆鉴权")
-    @PostMapping(value = "public/authenticate")
+    @PostMapping(value = "/public/authenticate")
     public ApiResponse createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
         try {
             authenticationManager.authenticate(
