@@ -2,10 +2,14 @@ package com.tencent.wxcloudrun.controller.oms;
 
 import com.tencent.wxcloudrun.config.ApiResponse;
 import com.tencent.wxcloudrun.config.JwtUtil;
+import com.tencent.wxcloudrun.controller.CounterController;
 import com.tencent.wxcloudrun.dto.AuthenticationRequest;
+import com.tencent.wxcloudrun.service.CounterService;
 import com.tencent.wxcloudrun.service.CustomUserDetailsService;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -24,9 +28,15 @@ public class LoginController {
     private JwtUtil jwtUtil;
     @Autowired
     private CustomUserDetailsService userDetailsService;
+
+    final Logger logger;
+    public LoginController() {
+        this.logger = LoggerFactory.getLogger(LoginController.class);
+    }
     @ApiOperation("用户登陆鉴权")
     @PostMapping(value = "/public/authenticate")
     public ApiResponse createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest) throws Exception {
+        logger.info("进入authenticate");
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authenticationRequest.getUsername(), authenticationRequest.getPassword())
