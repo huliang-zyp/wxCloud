@@ -38,14 +38,36 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/public/**","/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**")
-                .permitAll() // 登录接口允许访问
-                .anyRequest().authenticated()
+                // 基于 token，不需要使用 Session 了
+                .sessionManagement() // Session 管理
+                // 管理 Session 创建策略
+                //    ALWAYS, 总是创建HttpSession
+                //    NEVER, 只会在需要时创建一个HttpSession
+                //    IF_REQUIRED, 不会创建HttpSession，但如果它已经存在，将可以使用HttpSession
+                //    STATELESS; 永远不会创建HttpSession，它不会使用HttpSession来获取SecurityContext
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+                .authorizeRequests()
+                .antMatchers(
+                        "/public/**",
+                        "favicon.ico",
+                        "/v2/api-docs",
+                        "/v3/api-docs",
+                        "/configuration/**",
+                        "/swagger-ui.html",
+                        "/doc.html",
+                        "/swagger*/**",
+                        "/webjars/**")
+                .permitAll() // 授权请求
+                // 除了上面的请求，其他所有请求都需要认证
+                .anyRequest()
+                .authenticated()
+                .and()
+                // 禁止缓存
+                .headers()
+                .cacheControl();
 
-        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+                http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
