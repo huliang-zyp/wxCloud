@@ -35,13 +35,13 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         User user = userMapper.findByUsername(username);
-        logger.info("用户信息：", JSONObject.toJSONString(user));
+        logger.info("用户信息："+JSONObject.toJSONString(user));
         if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
-                user.getPassword(),
+                passwordEncoder.encode(user.getPassword()),
                 true,
                 user.isEnabled(),
                 true, true,
