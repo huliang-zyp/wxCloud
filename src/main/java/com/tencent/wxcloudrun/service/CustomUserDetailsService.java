@@ -1,7 +1,10 @@
 package com.tencent.wxcloudrun.service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.tencent.wxcloudrun.dao.UserMapper;
 import com.tencent.wxcloudrun.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,43 +30,23 @@ public class CustomUserDetailsService implements UserDetailsService {
     public CustomUserDetailsService(@Autowired UserMapper userMapper) {
         this.userMapper = userMapper;
     }
-
+    final Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        // 用户可以访问的资源名称（或者说用户所拥有的权限） 注意：必须"ROLE_"开头
-        authorities.add(new SimpleGrantedAuthority("ADMIN"));
-        // 临时写死 这里是数据库查询出来的
-        return org.springframework.security.core.userdetails.User.builder().username("huliang")
-                .password(passwordEncoder.encode("123456"))
-                .authorities(authorities).build();
 
-//        User user = userMapper.findByUsername(username);
-//        if (user == null) {
-//            throw new UsernameNotFoundException("User not found");
-//        }
-//        return new org.springframework.security.core.userdetails.User(
-//                user.getUsername(),
-//                user.getPassword(),
-//                true,
-//                user.isEnabled(),
-//                true, true,
-//                Collections.emptyList()
-//        );
-//        if (userDetails==null || !passwordEncoder.matches(password,userDetails.getPassword())){
-//            return RespBean.error("用户名或密码错误！");
-//        }
-//        if (!userDetails.isEnabled()){
-//            return RespBean.error("用户状态异常！");
-//        }
-//
-//        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(userDetails,null, userDetails.getAuthorities());
-//        String jwt = jwtUtil.foundJWT(userDetails);
-//        SecurityContextHolder.getContext().setAuthentication(token);
-//        Map<String,String> msg = new HashMap<>();
-//        msg.put("tokenHead",tokenHead);
-//        msg.put("token", jwt);
-//        return RespBean.success("登录成功！",msg);
+        User user = userMapper.findByUsername(username);
+        logger.info("用户信息：", JSONObject.toJSONString(user));
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        return new org.springframework.security.core.userdetails.User(
+                user.getUsername(),
+                user.getPassword(),
+                true,
+                user.isEnabled(),
+                true, true,
+                Collections.emptyList()
+        );
     }
 }
 
