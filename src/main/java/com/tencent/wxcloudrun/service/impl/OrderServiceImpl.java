@@ -39,6 +39,7 @@ public class OrderServiceImpl implements OrderService {
             //修改订单
         }else {
             //新增订单
+            //设置订单属性
 
         }
         return null;
