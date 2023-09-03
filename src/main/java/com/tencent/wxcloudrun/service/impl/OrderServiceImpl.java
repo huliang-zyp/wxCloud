@@ -1,8 +1,10 @@
 package com.tencent.wxcloudrun.service.impl;
 
+import com.tencent.wxcloudrun.config.ApiResponseModel;
 import com.tencent.wxcloudrun.dao.CountersMapper;
 import com.tencent.wxcloudrun.dao.OrderInfoMapper;
 import com.tencent.wxcloudrun.dto.OrderInfoRequest;
+import com.tencent.wxcloudrun.dto.OrderInfoRequestDetail;
 import com.tencent.wxcloudrun.model.OrderInfo;
 import com.tencent.wxcloudrun.service.OrderService;
 import org.slf4j.Logger;
@@ -28,5 +30,17 @@ public class OrderServiceImpl implements OrderService {
         BeanUtils.copyProperties(orderInfoRequest, orderInfoList);
         orderInfoList = orderInfoMapper.findOrderList();
         return orderInfoList;
+    }
+
+    @Override
+    public ApiResponseModel CreateOrUpdateOrder(OrderInfoRequestDetail orderInfoRequestDetail) {
+        //判断是否为新增订单
+        if(null != orderInfoRequestDetail.getId()){
+            //修改订单
+        }else {
+            //新增订单
+
+        }
+        return null;
     }
 }

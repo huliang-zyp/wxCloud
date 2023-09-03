@@ -1,29 +1,15 @@
-package com.tencent.wxcloudrun.model;
+package com.tencent.wxcloudrun.dto;
 
-import io.swagger.annotations.ApiModel;
+import com.tencent.wxcloudrun.model.UserPropertiesInfo;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
 
-import java.io.Serializable;
 import java.util.Date;
-@Data
-@ApiModel
-public class OrderInfo implements Serializable {
-    private Integer id;
+
+public class OrderInfoRequestDetail extends OrderInfoRequest{
     @ApiModelProperty(value = "订单名称")
     private String orderName;
-    @ApiModelProperty(value = "订单id")
-    private String orderId;
-    @ApiModelProperty(value = "订单类型")
-    private String orderType;
-    @ApiModelProperty(value = "订单状态")
-    private Integer orderStatus;
     @ApiModelProperty(value = "上游渠道号")
     private String upstreamChannel;
-    @ApiModelProperty(value = "下游渠道号")
-    private String downstreamChannel;
-    @ApiModelProperty(value = "公众号名称")
-    private String appName;
     @ApiModelProperty(value = "公众号ID")
     private String appid ;
     @ApiModelProperty(value = "结算方式")

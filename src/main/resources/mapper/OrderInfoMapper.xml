@@ -12,10 +12,15 @@
         <result property="appName" column="appName"/>
         <result property="appid" column="appid" />
         <result property="billingMethod" column="billingMethod" />
-        <result property="deliveryPeriod" column="deliveryPeriod" />
+        <result property="deliveryPeriodStart" column="deliveryPeriodStart" />
+        <result property="deliveryPeriodEnd" column="deliveryPeriodEnd" />
         <result property="totalDeliveryQuantity" column="totalDeliveryQuantity"/>
         <result property="dailyDeliveryLimit" column="dailyDeliveryLimit" />
-        <result property="deliveryTimeRequirement" column="deliveryTimeRequirement" />
+        <result property="deliveryTimeRequirementType" column="deliveryTimeRequirementType" />
+        <result property="dailyDeliveryLimitTimeRequirement" column="dailyDeliveryLimitTimeRequirement" />
+        <result property="dailyDeliveryLimitTimeStart" column="dailyDeliveryLimitTimeStart" />
+        <result property="dailyDeliveryLimitTimeEnd" column="dailyDeliveryLimitTimeEnd" />
+        <result property="priority" column="priority" />
         <result property="createdTime" column="createdTime" />
         <result property="updatedTime" column="updatedTime" />
         <result property="sellPrice" column="sellPrice" />
@@ -26,8 +31,9 @@
 
     <select id="findOrderList" resultMap="orderInfoMapper" parameterType="com.tencent.wxcloudrun.model.OrderInfo">
         SELECT `id`, `orderName`, `orderId`, `orderType`,`orderStatus`, `upstreamChannel`, `downstreamChannel`, `appName`
-                   , `appid`, `billingMethod`, `deliveryPeriod`,`totalDeliveryQuantity`, `dailyDeliveryLimit`, `deliveryTimeRequirement`, `createdTime`
-                   , `updatedTime`, `sellPrice`, `buyPrice`,`todayCompletionCount`, `totalCompletionCount`
+                   , `appid`, `billingMethod`, `deliveryPeriodStart`,`deliveryPeriodEnd`,`totalDeliveryQuantity`, `dailyDeliveryLimit`,
+                     `deliveryTimeRequirementType`,`dailyDeliveryLimitTimeRequirement`,`dailyDeliveryLimitTimeStart`,`dailyDeliveryLimitTimeEnd`,
+                    `priority`,`createdTime`, `updatedTime`, `sellPrice`, `buyPrice`,`todayCompletionCount`, `totalCompletionCount`
         FROM OrderInfo
         WHERE
         <if test="orderStatus !=null and orderStatus !=''">

@@ -1,6 +1,6 @@
 package com.tencent.wxcloudrun.controller.oms;
 
-import com.tencent.wxcloudrun.config.ApiResponse;
+import com.tencent.wxcloudrun.config.ApiResponseModel;
 import com.tencent.wxcloudrun.dto.AuthenticationRequest;
 import com.tencent.wxcloudrun.service.JwtAuthService;
 import io.swagger.annotations.ApiOperation;
@@ -23,15 +23,15 @@ public class LoginController {
 
     @ApiOperation(value = "用户登陆鉴权",notes = "返回token")
     @PostMapping(value = "/public/login")
-    public ApiResponse login(@RequestBody AuthenticationRequest authenticationRequest){
+    public ApiResponseModel login(@RequestBody AuthenticationRequest authenticationRequest){
         String token = null;
         try {
             token = jwtAuthService.login(authenticationRequest.getUsername(),authenticationRequest.getPassword());
         } catch (Exception e) {
             if(e instanceof UsernameNotFoundException){
-                ApiResponse.error("账号密码错误");
+                ApiResponseModel.error("账号密码错误");
             }
         }
-        return ApiResponse.ok(token);
+        return ApiResponseModel.ok(token);
     }
 }

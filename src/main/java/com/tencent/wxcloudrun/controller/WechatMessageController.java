@@ -1,6 +1,6 @@
 package com.tencent.wxcloudrun.controller;
 
-import com.tencent.wxcloudrun.config.ApiResponse;
+import com.tencent.wxcloudrun.config.ApiResponseModel;
 import com.tencent.wxcloudrun.service.CounterService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,8 +17,8 @@ public class WechatMessageController {
         this.logger = LoggerFactory.getLogger(CounterController.class);
     }
     @PostMapping(value = "/api/test")
-    ApiResponse test(){
+    ApiResponseModel test(){
         logger.info("/api/test:callBack Test 1");
-        return ApiResponse.ok();
+        return ApiResponseModel.ok();
     }
 }
