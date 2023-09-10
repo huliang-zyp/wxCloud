@@ -1,5 +1,6 @@
 # 二开推荐阅读[如何提高项目构建效率](https://developers.weixin.qq.com/miniprogram/dev/wxcloudrun/src/scene/build/speed.html)
 # 选择构建用基础镜像。如需更换，请到[dockerhub官方仓库](https://hub.docker.com/_/java?tab=tags)自行选择后替换。
+FROM ccr.ccs.tencentyun.com/weixincloud/weixincloud_wxcomponent:latest as wxcomponent
 FROM maven:3.6.0-jdk-8-slim as build
 
 # 指定构建过程中的工作目录
@@ -17,6 +18,9 @@ RUN mvn -s /app/settings.xml -f /app/pom.xml clean package
 
 # 选择运行时基础镜像
 FROM alpine:3.13
+
+COPY --from=wxcomponent /wxcloudrun-wxcomponent /wxcloudrun-wxcomponent
+ENV GIN_MODE release
 
 # 安装依赖包，如需其他依赖包，请到alpine依赖包管理(https://pkgs.alpinelinux.org/packages?name=php8*imagick*&branch=v3.13)查找。
 # 选用国内镜像源以提高下载速度
