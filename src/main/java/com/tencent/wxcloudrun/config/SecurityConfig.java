@@ -48,24 +48,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(
-                        "/public/**",
-                        "favicon.ico",
-                        "/v2/api-docs",
-                        "/v3/api-docs",
-                        "/configuration/**",
-                        "/swagger-ui.html",
-                        "/doc.html",
-                        "/swagger*/**",
-                        "/webjars/**")
-                .permitAll() // 授权请求
-                // 除了上面的请求，其他所有请求都需要认证
                 .anyRequest()
-                .authenticated()
-                .and()
-                // 禁止缓存
-                .headers()
-                .cacheControl();
+//                .antMatchers(
+//                        "/public/**",
+//                        "favicon.ico",
+//                        "/v2/api-docs",
+//                        "/v3/api-docs",
+//                        "/configuration/**",
+//                        "/swagger-ui.html",
+//                        "/doc.html",
+//                        "/swagger*/**",
+//                        "/webjars/**")
+                .permitAll() ;// 授权请求
+                // 除了上面的请求，其他所有请求都需要认证
+//                .anyRequest()
+//                .authenticated()
+//                .and()
+//                // 禁止缓存
+//                .headers()
+//                .cacheControl();
 
                 http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
